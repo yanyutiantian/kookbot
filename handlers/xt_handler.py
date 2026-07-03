@@ -55,8 +55,12 @@ def _xt_info() -> str:
 
 
 def _run(cmd: str) -> str:
+    """执行内置命令（无用户输入，仅用于 /xt 自身监控，保留 shell=True 处理管道）"""
     try:
-        r = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=10)
+        r = subprocess.run(
+            cmd, shell=True, capture_output=True, text=True, timeout=10,
+            executable="/bin/bash",
+        )
         return r.stdout.strip()
     except Exception:
         return ""
